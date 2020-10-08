@@ -2,8 +2,7 @@ package com.example.newsapp.network
 
 import com.example.newsapp.model.ResponseBody
 import retrofit2.Call
-import retrofit2.http.GET
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface NewsApi {
 
@@ -20,5 +19,8 @@ interface NewsApi {
         @Query("country") country: String,
         @Query("apiKey") apiKey: String
     ): Call<ResponseBody>
+
+//    @POST("v2/top-headlines")
+//    fun creatEverything(@Body dto: Articles): Call<ResponseBody>
 
 }

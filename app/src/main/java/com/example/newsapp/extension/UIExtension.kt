@@ -1,6 +1,7 @@
 package com.example.newsapp.extension
 
 import android.content.Context
+import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
 import com.bumptech.glide.Glide
@@ -20,4 +21,12 @@ fun ImageView.loadImage(context: Context, url: String?, placeholder: Int = 0) {
         .placeholder(placeholder)
         .load(url)
         .into(this)
+}
+
+fun View.gone() {
+    visibility = View.GONE
+}
+
+fun View.visible() {
+    visibility = View.VISIBLE
 }

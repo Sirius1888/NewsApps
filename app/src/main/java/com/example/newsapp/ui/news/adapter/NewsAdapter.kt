@@ -30,8 +30,10 @@ class NewsAdapter(private val onNewsClickListener: Listener):
     }
 
     fun update(list: MutableList<Articles>) {
+        val size = this.list.size
         this.list.addAll(list)
-        notifyDataSetChanged()
+        val sizeNew = this.list.size
+        notifyItemRangeChanged(size, sizeNew)
     }
 
     override fun getItemCount(): Int = list.size

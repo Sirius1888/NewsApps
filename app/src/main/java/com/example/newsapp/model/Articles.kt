@@ -6,13 +6,27 @@ data class Source(
 )
 
 data class Articles(
-    var source: Source?,
-    var author: String?,
-    var title: String?,
-    var description: String?,
-    var url: String?,
-    var urlToImage: String?,
-    var publishedAt: String?,
-    var content: String?
+    var source: Source? = null,
+    var author: String? = null,
+    var title: String? = null,
+    var description: String? = null,
+    var url: String? = null,
+    var urlToImage: String? = null,
+    var publishedAt: String? = null,
+    var content: String? = null
+) {
+    fun sortArticlesArray(list: MutableList<Articles>?): MutableList<Articles>? {
+        list?.filter { it.urlToImage != null
+                && it.title != null}
+        return list
+    }
 
-)
+    fun isEmptyImage(): String {
+        return when (urlToImage.isNullOrEmpty()) {
+            true -> "ДА, изображение пустое"
+            false -> "нет, тут есть изображение"
+        }
+    }
+
+}
+

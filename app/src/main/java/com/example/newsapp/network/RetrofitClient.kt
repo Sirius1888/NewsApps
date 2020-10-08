@@ -13,6 +13,7 @@ class RetrofitClient {
     private var okHttpClient: OkHttpClient = OkHttpClient()
             .newBuilder()
             .addInterceptor(provideLoggingInterceptor())
+//            .addInterceptor(AuthorizationInterceptor())
             .connectTimeout(30, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
             .writeTimeout(30, TimeUnit.SECONDS)
@@ -30,6 +31,7 @@ class RetrofitClient {
             .client(okHttpClient)
             .build()
 
-    fun provideNews() = provideRetrofit.create(NewsApi::class.java)
+    fun provideNews(): NewsApi = provideRetrofit.create(NewsApi::class.java)
+
 }
 

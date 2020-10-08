@@ -6,19 +6,21 @@ import com.example.newsapp.model.Articles
 import com.example.newsapp.repository.NewsRepository
 
 
-class NewsViewModel : ViewModel() {
-
+class NewsViewModel(val newsRepository: NewsRepository) : ViewModel() {
 
     var isLastPage = false
-    var page = 0
+    var isLoading = false
+    var page = 1
+
 
     fun fetchEverything(query: String): MutableLiveData<MutableList<Articles>?> {
         page += 1
-        return NewsRepository().fetchEverything(query, page)
+        return newsRepository.fetchEverything(query, page)
     }
 
     fun fetchTopHeadlines(): MutableLiveData<MutableList<Articles>?>  {
-        return NewsRepository().fetchTopHeadlines()
+        page += 1
+        return newsRepository.fetchTopHeadlines()
     }
 
 }
