@@ -14,6 +14,7 @@ import com.example.newsapp.R
 import com.example.newsapp.extension.showToast
 import com.example.newsapp.helper.PaginationScrollListener
 import com.example.newsapp.model.Articles
+import com.example.newsapp.network.Status
 import com.example.newsapp.ui.detail_news.DetailNewsActivity
 import com.example.newsapp.ui.news.adapter.NewsAdapter
 import kotlinx.android.synthetic.main.activity_main.*
@@ -31,6 +32,7 @@ class NewsActivity : AppCompatActivity(), NewsAdapter.Listener {
         setContentView(R.layout.activity_main)
         setupViews()
         subscribeToEverything()
+
     }
 
     private fun setupViews() {
@@ -40,10 +42,11 @@ class NewsActivity : AppCompatActivity(), NewsAdapter.Listener {
 
     private fun subscribeToEverything() {
         viewModel.fetchEverything("bitcoin").observe(this, Observer {
-            when (it.isNullOrEmpty()) {
-                false -> updateAdapter(it)
+            when (it.status) {
+                Status.SUCCESS -> {
+                    updateAdapter(it.data?.articles)
+                }
             }
-            viewModel.isLoading = false
         })
     }
 

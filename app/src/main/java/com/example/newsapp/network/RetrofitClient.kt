@@ -13,7 +13,6 @@ class RetrofitClient {
     private var okHttpClient: OkHttpClient = OkHttpClient()
             .newBuilder()
             .addInterceptor(provideLoggingInterceptor())
-//            .addInterceptor(AuthorizationInterceptor())
             .connectTimeout(30, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
             .writeTimeout(30, TimeUnit.SECONDS)

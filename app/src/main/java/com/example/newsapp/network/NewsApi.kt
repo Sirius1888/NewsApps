@@ -7,12 +7,12 @@ import retrofit2.http.*
 interface NewsApi {
 
     @GET("v2/everything")
-    fun fetchEverything(
+    suspend fun fetchEverything(
         @Query("q") q: String?,
         @Query("apiKey") apiKey: String,
         @Query("pageSize") size: Int,
         @Query("page") page: Int?
-    ): Call<ResponseBody>
+    ): ResponseBody
 
     @GET("v2/top-headlines")
     fun fetchTopHeadlines(

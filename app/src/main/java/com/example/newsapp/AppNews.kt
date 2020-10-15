@@ -18,4 +18,6 @@ class AppNews : Application() {
             modules(newsModule)
         }
     }
+
+
 }
