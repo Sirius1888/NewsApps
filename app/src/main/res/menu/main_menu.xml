@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/everything"
+        android:icon="@drawable/ic_baseline_fiber_new_24"
+        android:title="Everything"/>
+
+    <item
+        android:id="@+id/top_headlines"
+        android:icon="@drawable/ic_baseline_filter_9_plus_24"
+        android:title="Top headlines"/>
+</menu>

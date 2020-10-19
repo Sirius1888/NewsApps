@@ -17,83 +17,43 @@ import com.example.newsapp.model.Articles
 import com.example.newsapp.network.Status
 import com.example.newsapp.ui.detail_news.DetailNewsActivity
 import com.example.newsapp.ui.news.adapter.NewsAdapter
+import com.example.newsapp.ui.news.adapter.NewsPagerAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class NewsActivity : AppCompatActivity(), NewsAdapter.Listener {
+class NewsActivity : AppCompatActivity() {
 
-    private val viewModel by viewModel<NewsViewModel>()
-    private lateinit var adapter: NewsAdapter
-    private val linearManager = LinearLayoutManager(this)
-
+    private lateinit var viewPager: NewsPagerAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setupViews()
-        subscribeToEverything()
-
     }
 
     private fun setupViews() {
-        setupRecyclerView()
-        setupScrollListener()
+        setupViewPager()
+        setupBottomNavigationView()
     }
 
-    private fun subscribeToEverything() {
-        viewModel.fetchEverything("bitcoin").observe(this, Observer {
-            when (it.status) {
-                Status.SUCCESS -> {
-                    updateAdapter(it.data?.articles)
-                }
+    private fun setupViewPager() {
+        viewPager = NewsPagerAdapter(supportFragmentManager)
+        view_pager.adapter = viewPager
+        view_pager.offscreenPageLimit = 2
+    }
+
+    private fun setupBottomNavigationView() {
+        bottom_navigation.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.everything -> changeCurrentPosition(0)
+                R.id.top_headlines -> changeCurrentPosition(1)
             }
-        })
+            true
+        }
     }
 
-    private fun subscribeToTopHeadlines() {
-        viewModel.fetchTopHeadlines().observe(this, Observer {
-            when (it != null) {
-                true -> setLastPage()
-                false -> updateAdapter(it)
-            }
-            viewModel.isLoading = false
-        })
-    }
-
-    private fun setLastPage() {
-        viewModel.isLastPage = true
-        showToast(R.string.no_more_info)
-    }
-
-    private fun setupRecyclerView() {
-        adapter = NewsAdapter(this)
-        recycler_view.layoutManager = linearManager
-        recycler_view.adapter = adapter
-    }
-
-    private fun setupScrollListener() {
-        recycler_view?.addOnScrollListener(object : PaginationScrollListener(linearManager) {
-            override fun isLastPage(): Boolean {
-                return viewModel.isLastPage
-            }
-
-            override fun isLoading(): Boolean {
-                return viewModel.isLoading
-            }
-
-            override fun loadMoreItems() {
-                viewModel.isLoading = true
-                subscribeToEverything()
-            }
-        })
-    }
-
-    private fun updateAdapter(list: MutableList<Articles>?) {
-        list?.let { adapter.update(it) }
-    }
-
-    override fun onItemClick(item: Articles) {
-        DetailNewsActivity.instanceActivity(this, item)
+    private fun changeCurrentPosition(position: Int) {
+        view_pager.currentItem = position
     }
 
 }

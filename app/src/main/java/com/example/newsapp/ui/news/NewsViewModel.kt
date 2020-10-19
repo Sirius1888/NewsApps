@@ -16,6 +16,7 @@ class NewsViewModel(val newsRepository: NewsRepository) : ViewModel() {
     init {
         fetchEverything("bitcoin")
     }
+
     var articles = MutableLiveData<ResponseBody>()
 
     fun fetchEverything(query: String): LiveData<Resource<ResponseBody>> {
