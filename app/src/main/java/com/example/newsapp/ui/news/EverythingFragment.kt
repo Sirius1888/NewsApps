@@ -33,10 +33,11 @@ class EverythingFragment : Fragment(), NewsAdapter.Listener {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
         setupScrollListener()
+        subscribeToEverything()
     }
 
     private fun subscribeToEverything() {
-        viewModel.fetchEverything("bitcoin").observe(this, Observer {
+        viewModel.fetchEverything("bitcoin").observe(viewLifecycleOwner, Observer {
             when (it.status) {
                 Status.SUCCESS -> {
                     updateAdapter(it.data?.articles)
@@ -73,7 +74,7 @@ class EverythingFragment : Fragment(), NewsAdapter.Listener {
     }
 
     override fun onItemClick(item: Articles) {
-        DetailNewsActivity.instanceActivity(activity?.parent, item)
+        DetailNewsActivity.instanceActivity(activity, item)
     }
 
 }
