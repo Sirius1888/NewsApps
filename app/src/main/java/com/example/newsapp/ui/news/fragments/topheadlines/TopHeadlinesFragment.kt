@@ -1,4 +1,4 @@
-package com.example.newsapp.ui.news
+package com.example.newsapp.ui.news.topheadlines
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,9 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import com.example.newsapp.R
-import com.example.newsapp.extension.showToast
 import com.example.newsapp.model.Articles
 import com.example.newsapp.ui.detail_news.DetailNewsActivity
+import com.example.newsapp.ui.news.NewsViewModel
 import com.example.newsapp.ui.news.adapter.NewsAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

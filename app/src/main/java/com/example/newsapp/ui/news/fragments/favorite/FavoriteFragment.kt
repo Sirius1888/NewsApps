@@ -1,4 +1,4 @@
-package com.example.newsapp.ui.news
+package com.example.newsapp.ui.news.favorite
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,13 +10,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.newsapp.R
 import com.example.newsapp.helper.PaginationScrollListener
 import com.example.newsapp.model.Articles
-import com.example.newsapp.network.Status
 import com.example.newsapp.ui.detail_news.DetailNewsActivity
+import com.example.newsapp.ui.news.NewsViewModel
 import com.example.newsapp.ui.news.adapter.NewsAdapter
 import kotlinx.android.synthetic.main.fragment_everything.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class EverythingFragment : Fragment(), NewsAdapter.Listener {
+class FavoriteFragment : Fragment(), NewsAdapter.Listener {
 
     private val viewModel by viewModel<NewsViewModel>()
     private lateinit var adapter: NewsAdapter
@@ -37,12 +37,8 @@ class EverythingFragment : Fragment(), NewsAdapter.Listener {
     }
 
     private fun subscribeToEverything() {
-        viewModel.fetchEverything("bitcoin").observe(viewLifecycleOwner, Observer {
-            when (it.status) {
-                Status.SUCCESS -> {
-                    updateAdapter(it.data?.articles)
-                }
-            }
+        viewModel.fetchAllFavorites().observe(viewLifecycleOwner, Observer {
+            updateAdapter(it as MutableList<Articles>?)
         })
     }
 

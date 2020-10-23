@@ -18,9 +18,6 @@ interface NewsApi {
     fun fetchTopHeadlines(
         @Query("country") country: String,
         @Query("apiKey") apiKey: String
-    ): Call<ResponseBody>
-
-//    @POST("v2/top-headlines")
-//    fun creatEverything(@Body dto: Articles): Call<ResponseBody>
+    ): ResponseBody
 
 }
