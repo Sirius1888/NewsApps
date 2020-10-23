@@ -1,47 +1,50 @@
 package com.example.newsapp.repository
 
-import android.provider.SyncStateContract
-import androidx.lifecycle.MutableLiveData
-import com.example.newsapp.network.NewsApi
+import com.example.newsapp.data.network.NewsApi
 import kotlinx.coroutines.Dispatchers
 import androidx.lifecycle.liveData
 import com.example.newsapp.Constants
-import com.example.newsapp.model.Articles
-import com.example.newsapp.model.ResponseBody
-import com.example.newsapp.network.Resource
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.example.newsapp.data.db.AppDatabase
+import com.example.newsapp.data.model.Articles
+import com.example.newsapp.data.network.Resource
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import java.lang.Exception
 
-class NewsRepository(val api: NewsApi) {
+class NewsRepository(private val api: NewsApi, private val db: AppDatabase) {
 
     private val defaultSize = 10
+    private val country = "us"
+
     fun fetchEverything(query: String?, page: Int?) = liveData(Dispatchers.IO) {
         emit(Resource.loading(data = null))
         try {
-            emit(Resource.success(data = api.fetchEverything(query, Constants.apiKey, defaultSize, page)))
+            val result = api.fetchEverything(query, Constants.apiKey, defaultSize, page)
+            result.articles?.let { db.articlesDao().insertArticles(it) }
+            emit(Resource.success(data = result))
         } catch (exception: Exception) {
             emit(Resource.error(data = null, message = exception.message ?: "Error Occurred!"))
         }
     }
 
-    private val country = "us"
-    fun fetchTopHeadlines(): MutableLiveData<MutableList<Articles>?> {
-        val data: MutableLiveData<MutableList<Articles>?> = MutableLiveData()
-        api.fetchTopHeadlines(country, Constants.apiKey).enqueue(object :
-            Callback<ResponseBody> {
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                //500.. и выше
-                data.value = null
-            }
+    fun insertNewNews(article: Articles) {
+        CoroutineScope(Dispatchers.IO).launch {
+            article.isFavorite = true
+            db.articlesDao().insertArticle(article)
+        }
+    }
 
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                //404 - не найдено, 401 - нет доступа, 403 - токен истек
-                data.value = response.body()?.articles
-            }
-        })
-        return data
+    fun fetchFavorites() = liveData(Dispatchers.IO) {
+        emit(db.articlesDao().fetchFavoriteArticles())
+    }
+
+    fun fetchTopHeadlines() = liveData(Dispatchers.IO) {
+        emit(Resource.loading(data = null))
+        try {
+            emit(Resource.success(data = api.fetchTopHeadlines("business", country, Constants.apiKey)))
+        } catch (exception: Exception) {
+            emit(Resource.error(data = null, message = exception.message ?: "Error Occurred!"))
+        }
     }
 
 }

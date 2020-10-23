@@ -1,4 +1,4 @@
-package com.example.newsapp.ui.news.everything
+package com.example.newsapp.ui.news.fragments.everything
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,8 +9,8 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.newsapp.R
 import com.example.newsapp.helper.PaginationScrollListener
-import com.example.newsapp.model.Articles
-import com.example.newsapp.network.Status
+import com.example.newsapp.data.model.Articles
+import com.example.newsapp.data.network.Status
 import com.example.newsapp.ui.detail_news.DetailNewsActivity
 import com.example.newsapp.ui.news.NewsViewModel
 import com.example.newsapp.ui.news.adapter.NewsAdapter

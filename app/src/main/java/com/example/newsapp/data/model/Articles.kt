@@ -1,4 +1,4 @@
-package com.example.newsapp.model
+package com.example.newsapp.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -20,19 +20,4 @@ data class Articles(
     var publishedAt: String,
     var content: String,
     var isFavorite: Boolean = false
-) {
-    fun sortArticlesArray(list: MutableList<Articles>?): MutableList<Articles>? {
-        list?.filter { it.urlToImage != null
-                && it.title != null}
-        return list
-    }
-
-    fun isEmptyImage(): String {
-        return when (urlToImage.isNullOrEmpty()) {
-            true -> "ДА, изображение пустое"
-            false -> "нет, тут есть изображение"
-        }
-    }
-
-}
-
+)

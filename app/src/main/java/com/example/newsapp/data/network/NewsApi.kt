@@ -1,7 +1,6 @@
-package com.example.newsapp.network
+package com.example.newsapp.data.network
 
-import com.example.newsapp.model.ResponseBody
-import retrofit2.Call
+import com.example.newsapp.data.model.ResponseBody
 import retrofit2.http.*
 
 interface NewsApi {
@@ -15,7 +14,8 @@ interface NewsApi {
     ): ResponseBody
 
     @GET("v2/top-headlines")
-    fun fetchTopHeadlines(
+    suspend fun fetchTopHeadlines(
+        @Query("category") category: String,
         @Query("country") country: String,
         @Query("apiKey") apiKey: String
     ): ResponseBody

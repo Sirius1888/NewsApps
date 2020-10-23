@@ -1,6 +1,5 @@
-package com.example.newsapp.network
+package com.example.newsapp.data.network
 
-import com.example.newsapp.AppNews
 import com.example.newsapp.helper.SharedPreference
 import okhttp3.Interceptor
 import okhttp3.Response

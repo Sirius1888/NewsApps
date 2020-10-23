@@ -1,4 +1,4 @@
-package com.example.newsapp.ui.news.favorite
+package com.example.newsapp.ui.news.fragments.favorite
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,17 +8,16 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.newsapp.R
-import com.example.newsapp.helper.PaginationScrollListener
-import com.example.newsapp.model.Articles
+import com.example.newsapp.extension.gone
+import com.example.newsapp.data.model.Articles
 import com.example.newsapp.ui.detail_news.DetailNewsActivity
-import com.example.newsapp.ui.news.NewsViewModel
 import com.example.newsapp.ui.news.adapter.NewsAdapter
 import kotlinx.android.synthetic.main.fragment_everything.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FavoriteFragment : Fragment(), NewsAdapter.Listener {
 
-    private val viewModel by viewModel<NewsViewModel>()
+    private val viewModel by viewModel<FavoriteViewModel>()
     private lateinit var adapter: NewsAdapter
     private val linearManager = LinearLayoutManager(activity?.parent)
 
@@ -32,36 +31,19 @@ class FavoriteFragment : Fragment(), NewsAdapter.Listener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
-        setupScrollListener()
-        subscribeToEverything()
-    }
-
-    private fun subscribeToEverything() {
-        viewModel.fetchAllFavorites().observe(viewLifecycleOwner, Observer {
-            updateAdapter(it as MutableList<Articles>?)
-        })
+        subscribeToFetchAllFavorites()
     }
 
     private fun setupRecyclerView() {
+        editQuery.gone()
         adapter = NewsAdapter(this)
         recycler_view.layoutManager = linearManager
         recycler_view.adapter = adapter
     }
 
-    private fun setupScrollListener() {
-        recycler_view?.addOnScrollListener(object : PaginationScrollListener(linearManager) {
-            override fun isLastPage(): Boolean {
-                return viewModel.isLastPage
-            }
-
-            override fun isLoading(): Boolean {
-                return viewModel.isLoading
-            }
-
-            override fun loadMoreItems() {
-                viewModel.isLoading = true
-                subscribeToEverything()
-            }
+    private fun subscribeToFetchAllFavorites() {
+        viewModel.fetchAllFavorites().observe(viewLifecycleOwner, Observer {
+            updateAdapter(it as MutableList<Articles>?)
         })
     }
 
@@ -72,5 +54,4 @@ class FavoriteFragment : Fragment(), NewsAdapter.Listener {
     override fun onItemClick(item: Articles) {
         DetailNewsActivity.instanceActivity(activity, item)
     }
-
 }

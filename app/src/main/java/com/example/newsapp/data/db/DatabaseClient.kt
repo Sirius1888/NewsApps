@@ -1,4 +1,4 @@
-package com.example.newsapp.db
+package com.example.newsapp.data.db
 
 import android.content.Context
 import androidx.room.Room

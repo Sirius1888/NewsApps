@@ -1,7 +1,8 @@
-package com.example.newsapp
+package com.example.newsapp.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.newsapp.R
 import kotlinx.android.synthetic.main.activity_coroutines_example.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO

@@ -1,4 +1,4 @@
-package com.example.newsapp.network
+package com.example.newsapp.data.network
 
 import android.util.Log
 data class Resource<out T>(val status: Status, val data: T?, val message: String?) {

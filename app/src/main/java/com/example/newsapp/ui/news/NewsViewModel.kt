@@ -1,13 +1,15 @@
 package com.example.newsapp.ui.news
 
-import androidx.lifecycle.*
-import com.example.newsapp.model.Articles
-import com.example.newsapp.model.ResponseBody
-import com.example.newsapp.network.Resource
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import com.example.newsapp.data.model.Articles
+import com.example.newsapp.data.model.ResponseBody
+import com.example.newsapp.data.network.Resource
 import com.example.newsapp.repository.NewsRepository
 
 
-class NewsViewModel(val newsRepository: NewsRepository) : ViewModel() {
+class NewsViewModel(private val newsRepository: NewsRepository) : ViewModel() {
 
     var isLastPage = false
     var isLoading = false
@@ -17,16 +19,15 @@ class NewsViewModel(val newsRepository: NewsRepository) : ViewModel() {
         fetchEverything("bitcoin")
     }
 
-    var articles = MutableLiveData<ResponseBody>()
+    var articles: MutableLiveData<MutableList<Articles>> = MutableLiveData()
 
     fun fetchEverything(query: String): LiveData<Resource<ResponseBody>> {
         page += 1
         return newsRepository.fetchEverything(query, page)
     }
 
-    fun fetchTopHeadlines(): MutableLiveData<MutableList<Articles>?>  {
-        page += 1
-        return newsRepository.fetchTopHeadlines()
+    fun insertEverything(articles: Articles) {
+        newsRepository.insertNewNews(articles)
     }
 
 }

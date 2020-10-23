@@ -3,8 +3,9 @@ package com.example.newsapp.ui.news.adapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
-import com.example.newsapp.ui.news.EverythingFragment
-import com.example.newsapp.ui.news.TopHeadlinesFragment
+import com.example.newsapp.ui.news.fragments.everything.EverythingFragment
+import com.example.newsapp.ui.news.fragments.favorite.FavoriteFragment
+import com.example.newsapp.ui.news.fragments.topheadlines.TopHeadlinesFragment
 
 class NewsPagerAdapter(fragmentManager: FragmentManager) : FragmentStatePagerAdapter(fragmentManager) {
 
@@ -12,12 +13,13 @@ class NewsPagerAdapter(fragmentManager: FragmentManager) : FragmentStatePagerAda
         return when (position) {
             0 -> EverythingFragment()
             1 -> TopHeadlinesFragment()
+            2 -> FavoriteFragment()
             else -> EverythingFragment()
         }
     }
 
     override fun getCount(): Int {
-        return 2
+        return 3
     }
 
 }

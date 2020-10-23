@@ -4,9 +4,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 
-/**
- * Pagination class to add more items to the list when reach the last item.
- */
 abstract class PaginationScrollListener
 
     (var layoutManager: LinearLayoutManager) : RecyclerView.OnScrollListener() {

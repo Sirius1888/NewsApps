@@ -1,4 +1,4 @@
-package com.example.newsapp.network
+package com.example.newsapp.data.network
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
